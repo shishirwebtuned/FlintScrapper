@@ -8,6 +8,15 @@ import { AppShell } from '@/components/AppShell'
 import Link from 'next/link'
 import { BarChart2, CalendarDays, Target, ThumbsUp, Zap } from 'lucide-react'
 
+type LeadNested = {
+    raw_title: string
+    trade_types: string[]
+    suburb: string | null
+    state: string | null
+    score: number
+    urgency: string
+}
+
 type Stats = {
     totalMatched: number
     totalInterested: number
@@ -22,15 +31,9 @@ type Stats = {
         lead_id: string
         status: string
         created_at: string
+        viewed_at: string | null
         match_score: number
-        leads: {
-            raw_title: string
-            trade_types: string[]
-            suburb: string | null
-            state: string | null
-            score: number
-            urgency: string
-        }
+        leads: LeadNested[]
     }[]
 }
 
@@ -135,6 +138,7 @@ export default function DashboardPage() {
                 .from('lead_matches')
                 .select(`
                     id, lead_id, status, created_at, match_score,
+                    viewed_at,
                     leads ( raw_title, trade_types, suburb, state, score, urgency )
                 `)
                 .eq('tradie_id', user.id)
@@ -155,13 +159,13 @@ export default function DashboardPage() {
 
                 // Avg score
                 const avgScore = total > 0
-                    ? Math.round(matches.reduce((sum, m) => sum + (m.leads?.score || 0), 0) / total)
+                    ? Math.round(matches.reduce((sum, m) => sum + (m.leads?.[0]?.score || 0), 0) / total)
                     : 0
 
                 // Top trade
                 const tradeCounts: Record<string, number> = {}
                 matches.forEach(m => {
-                    m.leads?.trade_types?.forEach((t: string) => {
+                    m.leads?.[0]?.trade_types?.forEach((t: string) => {
                         tradeCounts[t] = (tradeCounts[t] || 0) + 1
                     })
                 })
@@ -420,6 +424,7 @@ export default function DashboardPage() {
 
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
                             {stats.recentLeads.map((match, i) => {
+                                const lead = match.leads?.[0]
                                 const statusColor = match.status === 'interested' ? '#22C55E' : match.status === 'passed' ? '#6B7280' : 'var(--ember-500)'
                                 const statusLabel = match.status === 'interested' ? '✓ Interested' : match.status === 'passed' ? 'Passed' : 'New'
 
@@ -449,7 +454,7 @@ export default function DashboardPage() {
                                                     display: 'flex', alignItems: 'center',
                                                     justifyContent: 'center', fontSize: '18px', flexShrink: 0,
                                                 }}>
-                                                    {tradeEmoji(match.leads?.trade_types?.[0] || '')}
+                                                    {tradeEmoji(lead?.trade_types?.[0] || '')}
                                                 </div>
 
                                                 <div style={{ flex: 1, minWidth: 0 }}>
@@ -458,10 +463,10 @@ export default function DashboardPage() {
                                                         color: 'var(--text-primary)',
                                                         overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                                                     }}>
-                                                        {match.leads?.raw_title}
+                                                        {lead?.raw_title}
                                                     </div>
                                                     <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '2px' }}>
-                                                        {match.leads?.suburb}{match.leads?.state ? `, ${match.leads.state}` : ''} · {timeAgo(match.created_at)}
+                                                        {lead?.suburb}{lead?.state ? `, ${lead.state}` : ''} · {timeAgo(match.created_at)}
                                                     </div>
                                                 </div>
 

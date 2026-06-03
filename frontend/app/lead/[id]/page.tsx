@@ -43,7 +43,7 @@ type LeadDetail = {
         source_url: string | null
         source: string
         created_at: string
-    }
+    }[]
 }
 
 // ── Helpers ──
@@ -252,7 +252,22 @@ export default function LeadDetailPage() {
         )
     }
 
-    const lead = match.leads
+    const lead = match.leads?.[0]
+    if (!lead) {
+        return (
+            <AppShell>
+                <div style={{ maxWidth: '720px', margin: '0 auto', padding: '80px 24px', textAlign: 'center' }}>
+                    <div style={{ fontSize: '48px', marginBottom: '16px' }}>🔍</div>
+                    <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '22px', fontWeight: 800, marginBottom: '8px' }}>
+                        Lead details unavailable
+                    </h2>
+                    <p style={{ color: 'var(--text-secondary)', marginBottom: '24px' }}>
+                        This lead record is missing its associated lead data.
+                    </p>
+                </div>
+            </AppShell>
+        )
+    }
     const urgency = urgencyConfig(lead.urgency)
     const isInterested = match.status === 'interested'
     const isPassed = match.status === 'passed'

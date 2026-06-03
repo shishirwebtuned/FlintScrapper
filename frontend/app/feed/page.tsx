@@ -33,7 +33,7 @@ type Lead = {
         score: number
         expires_at: string
         source_url: string | null
-    }
+    }[]
 }
 
 type Profile = {
@@ -111,7 +111,8 @@ function LeadCard({
     onAction: (matchId: string, action: 'interested' | 'passed') => void
     actionLoading: string | null
 }) {
-    const lead = match.leads
+    const lead = match.leads?.[0]
+    if (!lead) return null
     const urgency = urgencyConfig(lead.urgency)
     const isNew = !match.viewed_at
     const isPassed = match.status === 'passed'
@@ -438,8 +439,8 @@ export default function FeedPage() {
         if (leadMatches) {
             // Mark unseen leads as viewed
             const unseenIds = leadMatches
-                .filter((m: Lead) => !m.viewed_at)
-                .map((m: Lead) => m.id)
+                .filter((m) => !m.viewed_at)
+                .map((m) => m.id)
 
             if (unseenIds.length > 0) {
                 await supabase

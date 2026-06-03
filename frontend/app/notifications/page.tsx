@@ -26,8 +26,8 @@ type Notification = {
             trade_types: string[]
             suburb: string | null
             state: string | null
-        } | null
-    } | null
+        }[] | null
+    }[] | null
 }
 
 // ── Helpers ──
@@ -62,7 +62,7 @@ function NotifCard({
 }) {
     const config = notifConfig(notif.type)
     const isUnread = !notif.read_at
-    const lead = notif.lead_matches?.leads
+    const lead = notif.lead_matches?.[0]?.leads?.[0]
 
     return (
         <motion.div
@@ -152,9 +152,9 @@ function NotifCard({
                             }}>
                                 {lead.raw_title}
                             </div>
-                            {notif.lead_matches?.lead_id && (
+                            {notif.lead_matches?.[0]?.lead_id && (
                                 <Link
-                                    href={`/lead/${notif.lead_matches.lead_id}`}
+                                    href={`/lead/${notif.lead_matches[0].lead_id}`}
                                     onClick={e => e.stopPropagation()}
                                     style={{
                                         fontSize: '12px', fontWeight: 700,
