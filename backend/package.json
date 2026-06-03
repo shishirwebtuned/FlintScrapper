@@ -1,0 +1,25 @@
+{
+  "name": "flintscrapper",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.97.0",
+    "@supabase/supabase-js": "^2.106.0",
+    "cheerio": "^1.2.0",
+    "dotenv": "^17.4.2",
+    "node-cron": "^4.2.1",
+    "playwright": "^1.60.0",
+    "playwright-extra": "^4.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "resend": "^6.12.4"
+  }
+}

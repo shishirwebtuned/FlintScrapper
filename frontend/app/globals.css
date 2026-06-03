@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ember-400: #ff8c5a;
+  --color-ember-500: #ff6b35;
+  --color-ember-600: #e85a24;
+  --color-charcoal-500: #3a3a3a;
+  --color-charcoal-600: #2e2e2e;
+  --color-charcoal-700: #242424;
+  --color-charcoal-800: #1a1a1a;
+  --color-charcoal-900: #0f0f0f;
+}
+
+/* ── LIGHT MODE ── */
+:root {
+  --ember-500: #ff6b35;
+  --ember-600: #e85a24;
+  --ember-400: #ff8c5a;
+
+  --bg-base: #fafaf8;
+  --bg-surface: #f3f2ef;
+  --bg-surface-raised: #eceae6;
+  --bg-overlay: #e4e2dd;
+
+  --text-primary: #141210;
+  --text-secondary: #4a4740;
+  --text-muted: #8a8780;
+
+  --border: #e0ddd8;
+  --border-strong: #c8c5bf;
+
+  --charcoal-900: #0f0f0f;
+  --charcoal-800: #1a1a1a;
+  --charcoal-700: #242424;
+  --charcoal-600: #2e2e2e;
+  --charcoal-500: #3a3a3a;
+
+  --success: #16a34a;
+  --warning: #d97706;
+  --error: #dc2626;
+
+  /* Font roles */
+  --font-display: "Syne", sans-serif; /* Hero headlines — geometric, bold */
+  --font-heading:
+    "Bricolage Grotesque", sans-serif; /* Section heads — editorial */
+  --font-sans: "Bricolage Grotesque", sans-serif; /* Body text */
+  --font-mono: "Geist Mono", monospace; /* Stats, badges, codes */
+}
+
+/* ── DARK MODE ── */
+[data-theme="dark"] {
+  --bg-base: #0d0c0b;
+  --bg-surface: #161513;
+  --bg-surface-raised: #1e1d1a;
+  --bg-overlay: #272520;
+
+  --text-primary: #f2f0ec;
+  --text-secondary: #a8a49e;
+  --text-muted: #68655f;
+
+  --border: #2a2825;
+  --border-strong: #3a3733;
+
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --error: #ef4444;
+}
+
+* {
+}
+
+body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+}
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+}

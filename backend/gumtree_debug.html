@@ -1,0 +1,54 @@
+<!DOCTYPE html><html><head>
+    <title>Access denied</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <style>
+
+    </style>
+</head>
+<body>
+	<div class="container">
+		<noscript>
+			<h1>Access Denied</h1>
+			<p>
+				Access has been denied to the requested page.
+			</p>
+			<p>
+				Please enable javascript in your browser and try reloading this page.
+			</p>
+		</noscript>
+		<div id="jsEnabled" style="display: block;">
+			<h1>Access Denied</h1>
+			<p>
+				Access has been denied to the requested page.
+			</p>
+			<p>
+				If you believe this is in error please try refreshing this page, and if the block persists contact us with the following details:
+			</p>
+			<p>
+				<strong>Request ID: </strong> <span id="requestId">6a0d7f472745e00900006c7777373a73</span><br>
+				<strong>Your IP: </strong> <span id="ip">27.34.64.58</span>
+			</p>
+		</div>
+	</div>
+	<script type="application/javascript">
+		//show the content
+		document.getElementById("jsEnabled").style.display = 'block';
+
+		const visit = ('; '+document.cookie).split(`; PEAKHOUR_VISIT=`).pop().split(';')[0];
+		document.getElementById("requestId").innerHTML = visit;
+
+		fetch('https://api.ipify.org?format=json')
+			.then(response => response.json())
+			.then(data => {
+				document.getElementById("ip").innerText = data.ip;
+			})
+			.catch(error => {
+				document.getElementById("ip").innerText = "Error fetching IP";
+			});
+	</script>
+
+</body></html>
